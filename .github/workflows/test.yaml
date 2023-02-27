@@ -1,0 +1,18 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run backend unit and integration tests
+        run: |
+          docker build ./client -t kodega/client-tests
+          docker run kodega/client-tests npm run test -- --coverage
