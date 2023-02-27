@@ -20,5 +20,5 @@ jobs:
 
       - name: Run tests
         run: |
-          docker build ./client -t kodega/client-tests -f Dockerfile.dev
+          docker build ./client -t kodega/client-tests -f ./client/Dockerfile.dev
           docker run kodega/client-tests npm run test -- --coverage
