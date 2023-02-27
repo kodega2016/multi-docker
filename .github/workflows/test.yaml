@@ -12,7 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Run backend unit and integration tests
+      # Install Node 12
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Run tests
         run: |
           docker build ./client -t kodega/client-tests
           docker run kodega/client-tests npm run test -- --coverage
