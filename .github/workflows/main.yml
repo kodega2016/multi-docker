@@ -21,21 +21,21 @@ jobs:
       - name: Build and push client
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./client
           file: ./client/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/multi-client:latest
       - name: Build and push server
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./server
           file: ./server/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/multi-server:latest
       - name: Build and push worker
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./worker
           file: ./worker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/multi-worker:latest
@@ -43,7 +43,7 @@ jobs:
       - name: Build and push worker
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./nginx
           file: ./nginx/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/multi-nginx:latest
