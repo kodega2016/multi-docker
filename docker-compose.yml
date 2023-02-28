@@ -2,10 +2,12 @@ version: "3"
 services:
   client:
     image: kodega2016/multi-client
+    mem_limit: 128m
     hostname: client
 
   worker:
     image: kodega2016/multi-worker
+    mem_limit: 128m
     hostname: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
@@ -13,6 +15,7 @@ services:
 
   server:
     image: kodega2016/multi-server
+    mem_limit: 128m
     hostname: api
     environment:
       - REDIS_HOST=$REDIS_HOST
