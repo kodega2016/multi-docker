@@ -1,0 +1,30 @@
+version: "3"
+services:
+  client:
+    image: kodega2016/multi-client
+    hostname: client
+
+  worker:
+    image: kodega2016/multi-worker
+    hostname: worker
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+
+  server:
+    image: kodega2016/multi-server
+    hostname: api
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_PORT=$POSTGRES_PORT
+      - POSTGRES_DATABASE=$POSTGRES_DATABASE
+      - POSTGRES_USERNAME=$POSTGRES_USERNAME
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+
+  nginx:
+    image: kodega2016/multi-nginx
+    hostname: nginx
+    ports:
+      - 80:80
