@@ -23,6 +23,18 @@ const {
   REDIS_PORT,
 } = require("./keys");
 
+console.log(
+  {
+    PG_USER,
+    PG_PASSWORD,
+    PG_HOST,
+    PG_PORT,
+    PG_DATABASE,
+    REDIS_HOST,
+    REDIS_PORT,
+  }
+);
+
 const pgClient = new Pool({
   host: PG_HOST,
   port: PG_PORT,
