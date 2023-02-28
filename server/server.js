@@ -53,6 +53,8 @@ pgClient.query("CREATE TABLE IF NOT EXISTS values(number INT)").catch((err) => {
 
 // redis client setup
 const redis = require("redis");
+const errorHandler = require("./middleware/error_handler");
+const asyncHandler = require("./middleware/async_handler");
 
 const redisClient = redis.createClient({
   socket: {
@@ -68,7 +70,9 @@ const redisPublisher = redisClient.duplicate();
     await pgClient.connect();
     await redisClient.connect();
     await redisPublisher.connect();
+    console.log("connected to databases")
   } catch (error) {
+    console.log(`connection error:${error.message}`)
     console.log(error);
   }
 })();
@@ -81,7 +85,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/values/all", async (req, res) => {
+app.get("/values/all",asyncHandler(async (req, res) => {
   try {
     const values = await pgClient.query("SELECT * from values");
 
@@ -97,9 +101,9 @@ app.get("/values/all", async (req, res) => {
       message: error.message || "server error",
     });
   }
-});
+}));
 
-app.get("/values/current", async (req, res) => {
+app.get("/values/current",asyncHandler(async (req, res) => {
   try {
     const values = await redisClient.hGetAll("values");
     res.status(200).json({
@@ -114,9 +118,9 @@ app.get("/values/current", async (req, res) => {
       message: error.message || "server error",
     });
   }
-});
+}));
 
-app.post("/values", async (req, res) => {
+app.post("/values",asyncHandler(async (req, res) => {
   try {
     const { index } = req.body;
 
@@ -144,7 +148,10 @@ app.post("/values", async (req, res) => {
       message: error.message || "server error",
     });
   }
-});
+}));
+
+
+app.use(errorHandler)
 
 const PORT = 5000;
 const server = app.listen(PORT, () => {
